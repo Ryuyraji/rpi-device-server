@@ -42,10 +42,15 @@ int main() {
     void* (*buzzer_thread)(void*) = dlsym(handle, "buzzer_thread");
     void* (*fnd_thread)(void*)    = dlsym(handle, "fnd_thread");
 
-    // cds 관련 함수 (init/start/stop)
+    // cds 
     int  (*cds_init)(void)   = dlsym(handle, "cds_init");
     int  (*cds_start)(void)  = dlsym(handle, "cds_start");
     void (*cds_stop)(void)   = dlsym(handle, "cds_stop");
+
+    //stop
+    void (*led_stop)(void) = dlsym(handle, "led_stop");
+    void (*buzzer_stop)(void) = dlsym(handle, "buzzer_stop");
+    void (*fnd_stop)(void) = dlsym(handle, "fnd_stop");
 
     // 소켓 준비
     int serv_sock = socket(AF_INET, SOCK_STREAM, 0);
@@ -97,7 +102,7 @@ int main() {
             char *level = strdup(buf + 4);
             pthread_create(&t, NULL, led_threadpwd, level);
             pthread_detach(t);
-            // ⚠ free(level)은 스레드 함수 내부에서 해주는 게 안전합니다
+            
 
         } else if (strncmp(buf, "BUZZER", 6) == 0) {
             pthread_create(&t, NULL, buzzer_thread, NULL);

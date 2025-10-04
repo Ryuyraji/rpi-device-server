@@ -62,6 +62,8 @@ int cds_init(void) {
     pinMode(LED_GPIO, OUTPUT);
     digitalWrite(LED_GPIO, LOW);
     ledState = LOW;
+
+    return 0;
 }
 
 int cds_start(void) {
